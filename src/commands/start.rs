@@ -66,7 +66,8 @@ pub fn run(args: StartArgs) -> Result<(), String> {
     )
     .map_err(|e| e.to_string())?;
 
-    fs::write(format!("{n}/.clangd"), crate::templates::clangd(version)).map_err(|e| e.to_string())?;
+    fs::write(format!("{n}/.clangd"), crate::templates::clangd(version))
+        .map_err(|e| e.to_string())?;
     fs::write(
         format!("{n}/.clang-format"),
         crate::templates::clang_format(),
@@ -99,26 +100,41 @@ pub fn run(args: StartArgs) -> Result<(), String> {
     )
     .map_err(|e| e.to_string())?;
 
-    fs::write(format!("{n}/README.md"), crate::templates::readme(&n, version))
-        .map_err(|e| e.to_string())?;
+    fs::write(
+        format!("{n}/README.md"),
+        crate::templates::readme(&n, version),
+    )
+    .map_err(|e| e.to_string())?;
 
     if tools.cmake && tools.ninja {
-            std::process::Command::new("cmake")
-                .args(["--preset", "debug", "-Wno-dev"])
-                .current_dir(&n)
-                .status()
-                .ok();
-        }
+        std::process::Command::new("cmake")
+            .args(["--preset", "debug", "-Wno-dev"])
+            .current_dir(&n)
+            .status()
+            .ok();
+    }
 
-        if args.git {
-            std::process::Command::new("git").arg("init").current_dir(&n).status().ok();
-            std::process::Command::new("git").args(["add", "-A"]).current_dir(&n).status().ok();
-            std::process::Command::new("git")
-                .args(["commit", "-m", &format!("🗡 Initial commit — katana scaffolded {n}")])
-                .current_dir(n)
-                .status()
-                .ok();
-        }
+    if args.git {
+        std::process::Command::new("git")
+            .arg("init")
+            .current_dir(&n)
+            .status()
+            .ok();
+        std::process::Command::new("git")
+            .args(["add", "-A"])
+            .current_dir(&n)
+            .status()
+            .ok();
+        std::process::Command::new("git")
+            .args([
+                "commit",
+                "-m",
+                &format!("🗡 Initial commit — katana scaffolded {n}"),
+            ])
+            .current_dir(n)
+            .status()
+            .ok();
+    }
 
     Ok(())
 }

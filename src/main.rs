@@ -15,8 +15,14 @@ fn main() {
         .interact()
         .unwrap();
     match selection {
-        0 => { let args = commands::start::StartArgs::prompt(); commands::start::run(args).unwrap(); }
-        1 => {println!("Not yet")}
+        0 => {
+            let args = commands::start::StartArgs::prompt();
+            commands::start::run(args).unwrap();
+        }
+        1 => {
+            let args = commands::import::ImportArgs::prompt();
+            commands::import::run(args).unwrap();
+        }
         _ => unreachable!(),
     }
 }

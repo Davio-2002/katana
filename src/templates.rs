@@ -108,7 +108,7 @@ pub fn zed_tasks(name: &str, watchexec: bool) -> String {
   {{ "label": "▶️  Run (Debug)",            "command": "./build/debug/{name}",                                "cwd": "$ZED_WORKTREE_ROOT", "reveal": "always" }},
   {{ "label": "🐉 Build & Run (Debug)",    "command": "cmake --preset debug -Wno-dev && cmake --build --preset debug -- -j$(nproc 2>/dev/null || sysctl -n hw.ncpu) && ./build/debug/{name}", "cwd": "$ZED_WORKTREE_ROOT", "reveal": "always" }},
   {{ "label": "👁️  Watch & Auto-build",    "command": "{watch_cmd}",                                         "cwd": "$ZED_WORKTREE_ROOT", "reveal": "always" }},
-  {{ "label": "🌸 Clean",                  "command": "rm -rf build/",                                       "cwd": "$ZED_WORKTREE_ROOT", "reveal": "always" }}
+  {{ "label": "🌸 Clean",                  "command": "cmake -E remove_directory build/",                                       "cwd": "$ZED_WORKTREE_ROOT", "reveal": "always" }}
 ]"#
     )
 }
